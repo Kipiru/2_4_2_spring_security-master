@@ -83,6 +83,14 @@ public class User implements UserDetails {
         this.age = age;
     }
 
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -149,17 +157,5 @@ public class User implements UserDetails {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
-//    public void setRoles(String roles){
-//        this.roles = new HashSet<>();
-//    }
 
 }

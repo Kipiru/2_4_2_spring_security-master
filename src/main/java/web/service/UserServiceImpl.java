@@ -1,19 +1,16 @@
 package web.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import web.dao.RoleDao;
 import web.dao.UserDao;
-import web.model.Role;
 import web.model.User;
-
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserDao userDao;
     private final RoleService roleService;
@@ -23,6 +20,8 @@ public class UserServiceImpl implements UserService {
         this.userDao = userDao;
         this.roleService = roleService;
     }
+
+
 
     @Override
     @Transactional(readOnly = true)
@@ -55,17 +54,32 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void updateUser(User user) {
+    public void updateUser(User user, String[] roles) {
         User userFromDb = userDao.readById(user.getId());
         userFromDb.setName(user.getName());
         userFromDb.setLastName(user.getLastName());
         userFromDb.setAge(user.getAge());
+        userFromDb.setPassword(user.getPassword());
+        userFromDb.setRoles(roleService.getRoleSet(roles));
         userDao.updateUser(userFromDb);
     }
 
     @Override
+    @Transactional
     public User getUserByName(String name) {
         return userDao.getUserByName(name);
     }
 
+    // «Пользователь» – это просто Object. В большинстве случаев он может быть
+    //  приведен к классу UserDetails.
+    // Для создания UserDetails используется интерфейс UserDetailsService, с единственным методом:
+    @Override
+    @Transactional
+    public User loadUserByUsername(String s) throws UsernameNotFoundException {
+        User user = userDao.getUserByName(s);
+        if (user == null) {
+            throw new UsernameNotFoundException(String.format("User '%s' not found", s));
+        }
+        return user;
+    }
 }

@@ -27,11 +27,17 @@
         <p>Age: <label>
             <input type="text" th:field="${user.age}"/>
         </label></p>
-
+        <p>Password: <label>
+            <input type="password" th:field="${user.password}"/>
+        </label></p>
+        <p>Role: <label>
+            <input type="checkbox" name="addRoles" value="ROLE_ADMIN"/> ADMIN
+            <input type="checkbox" name="addRoles" value="ROLE_USER"/> USER
+        </label></p>
         <p><input type="submit" value="Save"/></p>
     </form>
 
-    <p><a href="/">Home</a></p>
+    <h2 th:align="center"><a th:href="@{/logout}">Logout</a></h2>
 </div>
 </body>
 </html>

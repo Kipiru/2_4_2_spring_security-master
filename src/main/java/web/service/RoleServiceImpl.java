@@ -19,10 +19,17 @@ public class RoleServiceImpl implements RoleService{
     public RoleServiceImpl(RoleDao roleDao) {
         this.roleDao = roleDao;
     }
+
     @Override
     @Transactional(readOnly = true)
     public List<Role> getAll() {
         return roleDao.getAll();
+    }
+
+    @Override
+    @Transactional
+    public void create(Role role) {
+        roleDao.create(role);
     }
 
     @Override

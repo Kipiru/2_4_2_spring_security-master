@@ -1,10 +1,7 @@
 package web.service;
 
-import web.model.Role;
 import web.model.User;
-
 import java.util.List;
-import java.util.Set;
 
 public interface UserService {
 
@@ -16,7 +13,7 @@ public interface UserService {
 
     void delete(User user);
 
-    void updateUser(User user);
+    void updateUser(User user, String[] roles);
 
     User getUserByName(String name);
 
