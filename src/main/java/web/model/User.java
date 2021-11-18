@@ -99,12 +99,19 @@ public class User implements UserDetails {
 
         User user = (User) o;
 
-        return id == user.id;
+        if (age != user.age) return false;
+        if (!name.equals(user.name)) return false;
+        if (!lastName.equals(user.lastName)) return false;
+        return password.equals(user.password);
     }
 
     @Override
     public int hashCode() {
-        return id;
+        int result = name.hashCode();
+        result = 31 * result + lastName.hashCode();
+        result = 31 * result + age;
+        result = 31 * result + password.hashCode();
+        return result;
     }
 
     @Override

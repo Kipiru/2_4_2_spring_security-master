@@ -10,6 +10,7 @@ import web.model.Role;
 import web.model.User;
 import web.service.RoleService;
 import web.service.UserService;
+
 import java.util.List;
 
 
@@ -28,7 +29,7 @@ public class MainController {
     }
 
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @GetMapping("/")
     public String loginPage() {
         return "login";
     }
@@ -85,10 +86,15 @@ public class MainController {
         return "redirect:/admin/users";
     }
 
-    @RequestMapping("/admin/delete/{id}")
+    @GetMapping("/admin/delete/{id}")
     public String deleteUserForm(@PathVariable int id) {
         userService.delete(userService.readById(id));
         return "redirect:/admin/users";
     }
 
+
+    @GetMapping("/login")
+    public String errorLogin() {
+        return "login";
+    }
 }
